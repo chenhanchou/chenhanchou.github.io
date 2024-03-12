@@ -42,7 +42,7 @@ function toTable_small(){
     var pondNum = sessionStorage.getItem("pond_Num");
     if (pondNum !== null) {
         table
-            .columns( 1 )
+            .columns( 0 )
             .search( '^' + pondNum + '$', true)
             .draw();
     }
@@ -149,7 +149,7 @@ function toTable_full(){
     var pondNum = sessionStorage.getItem("pond_Num");
     if (pondNum !== null) {
         table
-            .columns( 1 )
+            .columns( 0 )
             .search( '^' + pondNum + '$', true)
             .draw();
     }
