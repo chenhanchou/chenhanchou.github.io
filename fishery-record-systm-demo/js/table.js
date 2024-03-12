@@ -178,7 +178,7 @@ function getselecteddata(){
 
 // read data and fill in table
 function fetchData(){
-    $.getJSON("../json/data.json", function (data){
+    $.getJSON("./json/data.json", function (data){
         if ( !getdata_sessionStorage('data')) {
             sessionStorage.setItem('data', JSON.stringify(data));
         }
