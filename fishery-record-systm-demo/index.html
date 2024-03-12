@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="Zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow" />
+    <title>fishery record</title>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <!-- d3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!-- html2canvas -->
+    <script  src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.13.7/sorting/natural.js"></script>
+    <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet">
+    <!-- css -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/loader.css">
+</head>
+<body>
+    <div class="container-fluid main">
+        <!-- button -->
+        <div class="row justify-content-end p-3" id="menu-row">
+            <div class="col">
+                <button class="btn btn-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" title="選項">
+                    <i class="bi bi-list h5"></i>
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-light" onclick="ToggleMap()" title="縮放地圖">
+                    <i class="bi bi-arrows-angle-contract h5"></i>
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-light" onclick="Refresh_Map_Table()" title="重新整理">
+                    <i class="bi bi-arrow-clockwise h5"></i>
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-light" onclick="insertelement()" data-bs-toggle="modal" data-bs-target="#save_preview_frame" title="下載地圖">
+                    <i class="bi bi-download h5"></i>
+                </button>
+            </div>
+            <div class="col-10 text-end" id="updatetime">
+                <span>最後更新時間:</span>
+            </div>
+        </div>
+
+        <!-- main -->
+        <div class="row work_frame">
+            <!-- offcanvas -->
+            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">選項</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="formBox">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="ShowPondNum" checked>
+                            <label class="form-check-label" for="ShowPondNum">池體編號</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="ShowPerson">
+                            <label class="form-check-label" for="ShowPerson">養殖戶區域</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="ShowFishKind">
+                            <label class="form-check-label" for="ShowFishKind">物種分布</label>
+                        </div>
+                    </div>
+    
+                    <div class="card card-info visually-hidden mt-3" id="person_card">
+                        <div class="card-header">
+                            養殖戶資訊
+                        </div>
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="row" id="person-card">
+    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="card card-info visually-hidden mt-3" id="fish_card">
+                        <div class="card-header">
+                            物種分布
+                        </div>
+                        <div class="card-body">
+                            <div class="card-list" id="fish-card"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Modal -->
+            <div class="modal fade" id="save_preview_frame" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">儲存預覽</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="download_frame">
+                            <div id="preview_svg_frame"></div>
+                            <div id="preview_card_frame"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="download_btn" class="btn btn-primary btn-danger" onclick="downloadJPG()">儲存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- map -->
+            <div class="col-4 align-self-center p-5" id="map_outer">
+                <div class="imgframe" id="mapSVG_frame">
+                    <svg viewBox="3.207 45.431 496.259 318.277" xmlns="http://www.w3.org/2000/svg" id="map_svg">
+                        <path d="M 19.832 82.276 L 104.144 66.568 L 124.378 223.637 C 124.378 223.637 38.718 228.663 38.718 228.034 C 38.718 227.406 19.158 83.533 19.832 82.276 Z" id="A1" class="pond"/>
+                        <path d="M 118.308 65.313 L 133.822 224.265 L 206.668 221.752 L 198.574 156.411 L 261.977 130.653 C 261.977 130.653 229.601 54.632 226.228 54.632 C 222.856 54.632 121.681 64.056 118.308 65.313 Z" id="A2" class="pond"/>
+                        <path d="M 246.463 55.26 L 253.208 64.684 L 280.188 173.375 L 280.188 229.92 C 280.188 229.92 387.433 228.663 386.758 226.778 C 386.084 224.894 376.641 61.543 376.641 61.543 L 246.463 55.26 Z" id="A3" class="pond"/>
+                        <path d="M 36.019 248.768 L 37.369 265.103 L 48.835 356.83 C 48.835 356.83 290.98 343.636 290.98 344.265 C 290.98 344.893 275.466 241.856 274.792 241.856 C 274.117 241.856 38.718 248.768 36.019 248.768 Z" id="A5" class="pond"/>
+                        <path d="M 295.701 248.768 L 307.168 344.265 L 409.691 338.61 L 391.48 243.741 L 295.701 248.768 Z" id="A6" class="pond"/>
+                        <path d="M 427.229 337.982 L 398.899 64.056 C 398.899 64.056 484.561 65.941 484.561 66.568 C 484.561 67.196 429.926 337.982 427.229 337.982 Z" id="A4" class="pond"/>
+                        <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16px;" x="103.92" y="130.047" id="A1-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A1</text>
+                        <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16px;" x="195.962" y="124.703" id="A2-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A2</text>
+                        <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16px;" x="334.917" y="121.14" id="A3-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A3</text>
+                        <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16px;" x="435.273" y="114.608" id="A4-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A4</text>
+                        <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16px;" x="187.055" y="288.599" id="A5-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A5</text>
+                        <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16px;" x="355.701" y="286.817" id="A6-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A6</text>
+                    </svg>
+                </div>
+            </div>
+    
+            <!-- table -->
+            <div class="col-8 p-5 mt-5" id="table_outer">              
+                <div class="tableframe" id="table_div">
+                    <div class="dot-spinner">
+                        <div class="dot-spinner__dot"></div>
+                        <div class="dot-spinner__dot"></div>
+                        <div class="dot-spinner__dot"></div>
+                        <div class="dot-spinner__dot"></div>
+                        <div class="dot-spinner__dot"></div>
+                        <div class="dot-spinner__dot"></div>
+                        <div class="dot-spinner__dot"></div>
+                        <div class="dot-spinner__dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/offcanvas.js"></script>
+    <script src="js/button.js"></script>
+    <script src="js/table.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/map.js"></script>
+    <script>        
+        // unload remove search result
+        window.addEventListener('beforeunload', function (event) {
+            sessionStorage.removeItem("pond_Num");
+        });
+
+        fetchData();
+    </script>
+
+
+</body>
+</html>

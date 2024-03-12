@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="3.207 45.431 496.259 318.277" xmlns="http://www.w3.org/2000/svg">
+  <path style="stroke: rgb(0, 0, 0); fill: none;" d="M 19.832 82.276 L 104.144 66.568 L 124.378 223.637 C 124.378 223.637 38.718 228.663 38.718 228.034 C 38.718 227.406 19.158 83.533 19.832 82.276 Z" id="A1" class="pond"/>
+  <path style="stroke: rgb(0, 0, 0); fill: none;" d="M 118.308 65.313 L 133.822 224.265 L 206.668 221.752 L 198.574 156.411 L 261.977 130.653 C 261.977 130.653 229.601 54.632 226.228 54.632 C 222.856 54.632 121.681 64.056 118.308 65.313 Z" id="A2" class="pond"/>
+  <path style="stroke: rgb(0, 0, 0); fill: none;" d="M 246.463 55.26 L 253.208 64.684 L 280.188 173.375 L 280.188 229.92 C 280.188 229.92 387.433 228.663 386.758 226.778 C 386.084 224.894 376.641 61.543 376.641 61.543 L 246.463 55.26 Z" id="A3" class="pond"/>
+  <path style="stroke: rgb(0, 0, 0); fill: none;" d="M 36.019 248.768 L 37.369 265.103 L 48.835 356.83 C 48.835 356.83 290.98 343.636 290.98 344.265 C 290.98 344.893 275.466 241.856 274.792 241.856 C 274.117 241.856 38.718 248.768 36.019 248.768 Z" id="A5" class="pond"/>
+  <path style="stroke: rgb(0, 0, 0); fill: none;" d="M 295.701 248.768 L 307.168 344.265 L 409.691 338.61 L 391.48 243.741 L 295.701 248.768 Z" id="A6" class="pond"/>
+  <path style="stroke: rgb(0, 0, 0); fill: none;" d="M 427.229 337.982 L 398.899 64.056 C 398.899 64.056 484.561 65.941 484.561 66.568 C 484.561 67.196 429.926 337.982 427.229 337.982 Z" id="A4" class="pond"/>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16.6px;" x="103.92" y="130.047" id="A1-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A1</text>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16.6px;" x="195.962" y="124.703" id="A2-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A2</text>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16.6px;" x="334.917" y="121.14" id="A3-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A3</text>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16.6px;" x="435.273" y="114.608" id="A4-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A4</text>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16.6px;" x="187.055" y="288.599" id="A5-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A5</text>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 16.6px;" x="355.701" y="286.817" id="A6-text" transform="matrix(1.1358540058135986, 0, 0, 1.0580079555511475, -65.8293228149414, -3.169110059738159)">A6</text>
+</svg>
